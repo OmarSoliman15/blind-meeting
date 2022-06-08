@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_223455) do
   create_table "employees", force: :cascade do |t|
     t.string "name"
     t.bigint "unit_id", null: false
+    t.datetime "last_lead_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["unit_id"], name: "index_employees_on_unit_id"
@@ -31,7 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_223455) do
   create_table "employees_teams", id: false, force: :cascade do |t|
     t.bigint "employee_id", null: false
     t.bigint "team_id", null: false
-    t.boolean "does_want_food"
+    t.boolean "does_want_food", default: false
     t.index ["employee_id", "team_id"], name: "index_employees_teams_on_employee_id_and_team_id"
     t.index ["team_id", "employee_id"], name: "index_employees_teams_on_team_id_and_employee_id"
   end
@@ -44,11 +45,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_223455) do
 
   create_table "teams", force: :cascade do |t|
     t.bigint "blind_date_id", null: false
-    t.bigint "restaurant_id", null: false
-    t.bigint "leader_id", null: false
-    t.integer "size"
+    t.bigint "restaurant_id"
+    t.bigint "leader_id"
+    t.integer "no_going_to_lunch"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["blind_date_id", "leader_id"], name: "index_teams_on_blind_date_id_and_leader_id", unique: true
     t.index ["blind_date_id"], name: "index_teams_on_blind_date_id"
     t.index ["leader_id"], name: "index_teams_on_leader_id"
     t.index ["restaurant_id"], name: "index_teams_on_restaurant_id"

@@ -1,0 +1,31 @@
+<p style="color: green"><%= notice %></p>
+<h3></h3>
+
+<% unless @blind.nil? %>
+  <h1>Last blind meeting</h1>
+  <h2>Last blind meeting was in <%= @blind.meeting_date %></h2>
+<% else %>
+  <h1>There was no meeting in the last friday</h1>
+  <%= button_to 'Create next blind date', { :controller => "blind_dates", :action => "create_next" }, :method => :post %>
+<% end %>
+
+<h1>Employees</h1>
+
+<div id="employees">
+  <% @employees.each do |employee| %>
+    <div>
+      <p>
+        <strong>Name:</strong>
+        <%= employee.name %>
+      </p>
+
+      <p>
+        <strong>Unit:</strong>
+        <%= employee.unit.name %>
+      </p>
+    </div>
+    <hr>
+  <% end %>
+</div>
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+
